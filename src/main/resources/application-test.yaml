@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://${DB}:3307/boot_db?useUnicode=true&charaterEncoding =utf-8&useSSL=false&serverTimezone=UTC&autoReconnection=true
+    username: boot
+    password: boot
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+DB: 127.0.0.1
+
+logging:
+  level:
+    com:
+      example:
+        myspringbootapp: debug
