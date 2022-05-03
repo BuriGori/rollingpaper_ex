@@ -36,7 +36,7 @@ class CommentInfoRepositoryTest {
     private PaperUserService paperUserService;
 
 
-    @BeforeEach
+    @Test
     public void beforeSetting(){
         PaperUser paperUser = new PaperUser();
         paperUser.setName("첫 유저");
@@ -45,7 +45,8 @@ class CommentInfoRepositoryTest {
         paperUser.setImageUrl("null");
         paperUserService.signIn(paperUser);
 
-        log.info(String.valueOf(paperUserRepository.getById(1L)));
+//        log.info(String.valueOf(paperUserRepository.findById(1L)));
+        System.out.println(paperUserRepository.findById(1L).get().toString());
         log.info("-----------------------");
 
 
@@ -55,24 +56,51 @@ class CommentInfoRepositoryTest {
         postInfo.setUserId(1L);
         postInfoService.createPost(postInfo);
 
-        log.info(String.valueOf(paperUserRepository.getById(1L)));
-        log.info(String.valueOf(postInfoRepository.getById(2L)));
+        PostInfo postInfo2 = new PostInfo();
+        postInfo2.setPostContent("이날을 위해서???");
+        postInfo2.setTargetDate(LocalDateTime.now());
+        postInfo2.setUserId(1L);
+        postInfoService.createPost(postInfo2);
+
+//        log.info(String.valueOf(paperUserRepository.findById(1L)));
+        System.out.println(paperUserRepository.findById(1L).get().toString());
+        paperUserRepository.findById(1L).get().getPostInfos().forEach(System.out::println);
+//        log.info(String.valueOf(postInfoRepository.findById(2L)));
+//        System.out.println(postInfoRepository.findById(2L).get().toString());
         log.info("-----------------------");
 
+
         CommentInfo commentInfo = new CommentInfo();
-        commentInfo.setAuthor("작성자");
-        commentInfo.setText("작성글");
+        commentInfo.setAuthor("작성자1");
+        commentInfo.setText("작성글1");
         commentInfo.setPostInfoId(2L);
         commnetInfoService.createComment(commentInfo);
 
-        log.info(String.valueOf(paperUserRepository.getById(1L)));
-        log.info(String.valueOf(postInfoRepository.getById(2L)));
-        log.info(String.valueOf(commentInfoRepository.getById(3L)));
+        CommentInfo commentInfo2 = new CommentInfo();
+        commentInfo2.setAuthor("작성자2");
+        commentInfo2.setText("작성글2");
+        commentInfo2.setPostInfoId(2L);
+        commnetInfoService.createComment(commentInfo2);
+
+        CommentInfo commentInfo3 = new CommentInfo();
+        commentInfo3.setAuthor("작성자3");
+        commentInfo3.setText("작성글3");
+        commentInfo3.setPostInfoId(3L);
+        commnetInfoService.createComment(commentInfo3);
+
+        System.out.println(paperUserRepository.findById(1L).get().toString());
+        paperUserRepository.findById(1L).get().getPostInfos().forEach(System.out::println);
+        postInfoRepository.findById(2L).get().getCommentInfos().forEach(System.out::println);
+        postInfoRepository.findById(3L).get().getCommentInfos().forEach(System.out::println);
+//        log.info(String.valueOf(paperUserRepository.findById(1L)));
+//        log.info(String.valueOf(postInfoRepository.findById(2L)));
+//        log.info(String.valueOf(commentInfoRepository.findById(3L)));
 
     }
 
 
     @Test
+    @Disabled
     public void commnetTest(){
         log.info("test!");
 
