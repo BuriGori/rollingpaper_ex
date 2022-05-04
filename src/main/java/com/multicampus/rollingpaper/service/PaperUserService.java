@@ -7,15 +7,16 @@ import com.multicampus.rollingpaper.repository.PostInfoRepository;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 @Slf4j
-@RequiredArgsConstructor
 @Service
 public class PaperUserService {
 
-    private final PaperUserRepository paperUserRepository;
+    @Autowired
+    private PaperUserRepository paperUserRepository;
 
     public PaperUser signIn(PaperUser paperUser){
         return paperUserRepository.save(paperUser);
@@ -29,7 +30,7 @@ public class PaperUserService {
     }
 
     public PaperUser updatePaperUser(PaperUser paperUser){
-        PaperUser user = paperUserRepository.getById(paperUser.getPaperUserId());
+        PaperUser user = paperUserRepository.getById(paperUser.getId());
         user.setName(paperUser.getName());
         user.setEmail(paperUser.getEmail());
         user.setPassword(paperUser.getPassword());

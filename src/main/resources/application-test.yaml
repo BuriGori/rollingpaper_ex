@@ -14,4 +14,4 @@ logging:
   level:
     com:
       example:
-        myspringbootapp: debug
+        myspringbootapp: info

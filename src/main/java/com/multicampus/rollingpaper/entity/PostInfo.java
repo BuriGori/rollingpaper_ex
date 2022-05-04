@@ -13,17 +13,20 @@ import java.util.List;
 public class PostInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long postInfoId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
 
-    private Long userId;
+    @ManyToOne
+    private PaperUser user;
+
+    private String title;
 
     private LocalDateTime targetDate;
 
     private String postContent;
 
     @OneToMany
-    @JoinColumn(name = "postInfoId")
+    @JoinColumn(name = "postinfo_id")
     @ToString.Exclude
     private List<CommentInfo> commentInfos = new ArrayList<>();
 

@@ -12,12 +12,12 @@ import java.util.List;
 @Entity
 public class PaperUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "paper_user_id")
-    private Long paperUserId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
 
     private String name;
 
+    @Column(unique = true)
     private String email;
 
     private String password;
@@ -26,7 +26,7 @@ public class PaperUser {
     private String imageUrl;
 
     @OneToMany
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     @ToString.Exclude
     private List<PostInfo> postInfos=new ArrayList<>();
 

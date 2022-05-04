@@ -9,11 +9,11 @@ import javax.persistence.*;
 public class CommentInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "comment_info_id")
-    private Long commentInfoId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
 
-    private Long postInfoId;
+    @ManyToOne
+    private PostInfo postInfo;
 
     private String author;
 
