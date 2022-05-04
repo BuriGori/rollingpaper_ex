@@ -1,5 +1,6 @@
 package com.multicampus.rollingpaper.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
@@ -28,6 +29,7 @@ public class PaperUser {
     @OneToMany
     @JoinColumn(name = "user_id")
     @ToString.Exclude
+    @JsonIgnore
     private List<PostInfo> postInfos=new ArrayList<>();
 
     public void addPost(PostInfo postInfo){

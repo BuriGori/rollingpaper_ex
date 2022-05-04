@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootTest
 @Slf4j
@@ -79,6 +80,7 @@ class CommentInfoRepositoryTest {
         commentInfo3.setPostInfo(postInfo2);
         commentInfoService.createComment(commentInfo3);
 
+        postInfo.getCommentInfos().forEach(System.out::println);
         commentInfoRepository.findByPostInfo(postInfo).forEach(System.out::println);
         commentInfoRepository.findByPostInfo(postInfo2).forEach(System.out::println);
     }

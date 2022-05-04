@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
+@Transactional
 public class PostInfoService {
 
     @Autowired
@@ -43,5 +45,33 @@ public class PostInfoService {
         user.removePost(post);
         postInfoRepository.delete(post);
         return ResponseEntity.ok().build();
+    }
+
+    public PostInfo createUserPost(Long id, PostInfo postInfo) {
+        Optional<PaperUser> optional = paperUserRepository.findById(id);
+        if(!optional.isPresent()){
+            return new PostInfo();
+        }
+        PaperUser paperUser = optional.get();
+        postInfo.setUser(paperUser);
+        paperUser.addPost(postInfo);
+        return postInfoRepository.save(postInfo);
+    }
+
+    public PostInfo updateUserPost(Long id, PostInfo postInfo, Long postId) {
+        Optional<PaperUser> optional = paperUserRepository.findById(id);
+        if(!optional.isPresent()){
+            return new PostInfo();
+        }
+        PaperUser paperUser = optional.get();
+        Optional<PostInfo> first = paperUser.getPostInfos().stream().filter(t -> t.getId() == postId).findFirst();
+        if(!first.isPresent()){
+            return new PostInfo();
+        }
+        PostInfo original = first.get();
+        original.setTitle(postInfo.getTitle());
+        original.setTargetDate(postInfo.getTargetDate());
+        original.setPostContent(postInfo.getPostContent());
+        return original;
     }
 }

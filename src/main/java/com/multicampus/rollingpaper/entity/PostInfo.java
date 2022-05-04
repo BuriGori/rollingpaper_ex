@@ -1,5 +1,7 @@
 package com.multicampus.rollingpaper.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
@@ -21,6 +23,7 @@ public class PostInfo {
 
     private String title;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime targetDate;
 
     private String postContent;
@@ -28,6 +31,7 @@ public class PostInfo {
     @OneToMany
     @JoinColumn(name = "postinfo_id")
     @ToString.Exclude
+    @JsonIgnore
     private List<CommentInfo> commentInfos = new ArrayList<>();
 
     public void addCommnet(CommentInfo commentInfo){

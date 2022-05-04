@@ -11,16 +11,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Slf4j
 @Service
 public class PaperUserService {
 
     @Autowired
     private PaperUserRepository paperUserRepository;
+    @Autowired
+    private PostInfoRepository postInfoRepository;
+
 
     public PaperUser signIn(PaperUser paperUser){
         return paperUserRepository.save(paperUser);
     }
+
+    public List<PostInfo> selectAllPost(Long id){
+        Optional<PaperUser> optional = paperUserRepository.findById(id);
+        if(!optional.isPresent()){
+            return new ArrayList<>();
+        }
+        PaperUser paperUser = optional.get();
+        return postInfoRepository.findByUser(paperUser);
+    }
+
 
     public Boolean loginCheck(PaperUser paperUser){
         PaperUser user = paperUserRepository.findByEmail(paperUser.getEmail());
