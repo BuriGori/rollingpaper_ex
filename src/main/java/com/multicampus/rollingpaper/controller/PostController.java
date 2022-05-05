@@ -1,22 +1,25 @@
 package com.multicampus.rollingpaper.controller;
 
+import com.multicampus.rollingpaper.entity.PaperUser;
 import com.multicampus.rollingpaper.entity.PostInfo;
 import com.multicampus.rollingpaper.service.PaperUserService;
 import com.multicampus.rollingpaper.service.PostInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.annotation.RequestScope;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/post")
 public class PostController {
 
     @Autowired
-    PaperUserService paperUserService;
+    private PaperUserService paperUserService;
     @Autowired
-    PostInfoService postInfoService;
+    private PostInfoService postInfoService;
+
+    @GetMapping("/{id}")
+    public PaperUser postUser(@PathVariable Long id){
+        return paperUserService.selectUser(id);
+    }
 
     @PostMapping("/{id}")
     public PostInfo postList(@PathVariable Long id, @RequestBody PostInfo postInfo){
@@ -28,6 +31,9 @@ public class PostController {
         return postInfoService.updateUserPost(id, postInfo, postId);
     }
 
-
+    @DeleteMapping("/{id}/{postId}")
+    public PostInfo postDelete(@PathVariable Long id, @PathVariable Long postId) {
+        return postInfoService.deleteUserPost(id, postId);
+    }
 
 }

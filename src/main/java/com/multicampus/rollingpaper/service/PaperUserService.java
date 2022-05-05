@@ -63,4 +63,12 @@ public class PaperUserService {
         return ResponseEntity.ok().build();
     }
 
+    public PaperUser selectUser(Long id) {
+        Optional<PaperUser> optional = paperUserRepository.findById(id);
+        if(!optional.isPresent()){
+            return new PaperUser();
+        }
+        PaperUser paperUser = optional.get();
+        return paperUser;
+    }
 }

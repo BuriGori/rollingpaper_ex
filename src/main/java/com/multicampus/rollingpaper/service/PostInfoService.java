@@ -47,6 +47,8 @@ public class PostInfoService {
         return ResponseEntity.ok().build();
     }
 
+
+    //REST API 관련 method
     public PostInfo createUserPost(Long id, PostInfo postInfo) {
         Optional<PaperUser> optional = paperUserRepository.findById(id);
         if(!optional.isPresent()){
@@ -72,6 +74,45 @@ public class PostInfoService {
         original.setTitle(postInfo.getTitle());
         original.setTargetDate(postInfo.getTargetDate());
         original.setPostContent(postInfo.getPostContent());
+        return original;
+    }
+
+    public PostInfo deleteUserPost(Long id, Long postId) {
+        Optional<PaperUser> optional = paperUserRepository.findById(id);
+        if(!optional.isPresent()){
+            return new PostInfo();
+        }
+        PaperUser paperUser = optional.get();
+        Optional<PostInfo> first = paperUser.getPostInfos().stream().filter(t -> t.getId() == postId).findFirst();
+        if(!first.isPresent()){
+            return new PostInfo();
+        }
+        PostInfo original = first.get();
+        paperUser.removePost(original);
+        postInfoRepository.delete(original);
+        return original;
+    }
+
+    public PaperUser selectUser(Long id) {
+        Optional<PaperUser> optional = paperUserRepository.findById(id);
+        if(!optional.isPresent()){
+            return new PaperUser();
+        }
+        PaperUser paperUser = optional.get();
+        return paperUser;
+    }
+
+    public PostInfo selectUserPost(Long id, Long postId) {
+        Optional<PaperUser> optional = paperUserRepository.findById(id);
+        if(!optional.isPresent()){
+            return new PostInfo();
+        }
+        PaperUser paperUser = optional.get();
+        Optional<PostInfo> first = paperUser.getPostInfos().stream().filter(t -> t.getId() == postId).findFirst();
+        if(!first.isPresent()){
+            return new PostInfo();
+        }
+        PostInfo original = first.get();
         return original;
     }
 }
